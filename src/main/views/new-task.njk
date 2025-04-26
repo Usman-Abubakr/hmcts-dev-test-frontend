@@ -1,0 +1,107 @@
+{% extends "template.njk" %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block content %}
+    <h1 class="govuk-heading-xl">Tasks</h1>
+
+    <p class="govuk-body">Use this page to create a new task</p>
+
+    <form method="POST" action="/tasks">
+        {{ govukInput({
+            label: {
+                text: "Task name",
+                classes: "govuk-label--m",
+                isPageHeading: false
+            },
+            classes: "govuk-input--width-30",
+            id: "task-name",
+            name: "taskName",
+            attributes: {
+                required: true
+            }
+        }) }}
+        
+        {{ govukInput({
+            label: {
+                text: "Case number",
+                classes: "govuk-label--m",
+                isPageHeading: false
+            },
+            hint: {
+                text: "Optional: Enter a case number if it's relevant to this task"
+            },
+            classes: "govuk-input--width-30",
+            id: "task-case-number",
+            name: "taskCaseNumber"
+        }) }}
+        
+        {{ govukTextarea({
+            label: {
+                text: "Task description",
+                classes: "govuk-label--m",
+                isPageHeading: false
+            },
+            hint: {
+                text: "Optional: Add any additional information about the task"
+            },
+            classes: "govuk-input--width-30",
+            id: "task-description",
+            name: "taskDescription"
+        }) }}
+
+        {{ govukDateInput({
+            id: "task-due-date",
+            namePrefix: "taskDueDate",
+            fieldset: {
+                legend: {
+                    text: "Due date",
+                 isPageHeading: false,
+                 classes: "govuk-fieldset__legend--m"
+                }
+            },
+            hint: {
+                text: "Optional: Enter a due date if there is one. For example, 27 3 2024"
+            }
+        }) }}
+
+        {{ govukRadios({
+            name: "taskStatus",
+            fieldset: {
+                legend: {
+                    text: "What is the status of the task?",
+                    isPageHeading: false,
+                    classes: "govuk-fieldset__legend--m"
+                }
+            },
+            items: [
+                {
+                    value: "todo",
+                    text: "To Do"
+                },
+                {
+                    value: "in progress",
+                    text: "In Progress"
+                },
+                {
+                    value: "complete",
+                    text: "Complete"
+                }
+            ]
+        }) }}
+
+        {{ govukButton({
+            text: "Create task",
+            classes: "govuk-button--primary",
+            attributes: {
+                type: "submit"
+            }
+        }) }}
+    </form>
+
+
+{% endblock %}
