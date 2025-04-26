@@ -94,13 +94,18 @@
             ]
         }) }}
 
-        {{ govukButton({
-            text: "Create task",
-            classes: "govuk-button--primary",
-            attributes: {
-                type: "submit"
-            }
-        }) }}
+        <div class="govuk-button-group">
+            {{ govukButton({
+                text: "Create task",
+                classes: "govuk-button--primary",
+                preventDoubleClick: true,
+                attributes: {
+                    type: "submit"
+                }
+            }) }}
+
+            <a class="govuk-link" href="/tasks">Cancel</a>
+        </div>
     </form>
 
 
