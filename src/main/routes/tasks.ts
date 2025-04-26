@@ -120,14 +120,14 @@ export default function (app: Application): void {
     const [year, month, day] = (task.dueDate || '---').split('-');
   
     res.render('update-task', {
-      task: {
-        ...task,
-        dueDateDay: day,
-        dueDateMonth: month,
+        task: {
+            ...task,
+            dueDateDay: day,
+            dueDateMonth: month,
         dueDateYear: year,
-      }
+        }
     });
-  });
+    });
 
   // Update a specific task
   app.post('/tasks/:id', async (req, res) => {
@@ -177,5 +177,18 @@ export default function (app: Application): void {
         res.status(500).send('Something went wrong updating the task.');
     }
 });
+
+    // Delete a specific task
+    app.post('/tasks/:id/delete', async (req, res) => {
+        const id = req.params.id;
+
+        try {
+            await axios.delete(`http://localhost:4000/tasks/${id}`);
+            res.redirect('/tasks');
+        } catch (error) {
+            console.error('Error deleting task:', error);
+            res.status(500).send('Something went wrong deleting the task.');
+        }
+    });
 
 }

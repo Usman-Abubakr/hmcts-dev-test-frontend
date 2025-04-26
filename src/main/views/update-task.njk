@@ -4,8 +4,17 @@
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 
 {% block content %}
+
+
+    {{ govukBackLink({
+        text: "Back",
+        href: "/tasks"
+    }) }}
+
+
   <h1 class="govuk-heading-xl">Update task</h1>
 
   <form method="POST" action="/tasks/{{ task.id }}">
@@ -87,7 +96,7 @@
       ]
     }) }}
 
-    <div class="govuk-button-group">
+    
         {{ govukButton({
             text: "Update task",
             classes: "govuk-button--primary",
@@ -96,14 +105,19 @@
                 type: "submit"
             }
         }) }}
+    
+    </form>
 
+    <form method="POST" action="/tasks/{{ task.id }}/delete" style="display: inline;">
         {{ govukButton({
             text: "Delete task",
-            classes: "govuk-button--warning"
+            classes: "govuk-button--warning",
+            preventDoubleClick: true
         }) }}
+    
 
-        <a class="govuk-link" href="/tasks">Cancel</a>
-    </div>
+        {# <a class="govuk-link" href="/tasks">Cancel</a> #}
+    </form>
 
-  </form>
+  
 {% endblock %}
