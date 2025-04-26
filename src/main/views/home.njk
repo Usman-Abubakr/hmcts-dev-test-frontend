@@ -1,5 +1,8 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+
 {% extends "template.njk" %}
 
 <!-- You may want to make further use of these components: https://design-system.service.gov.uk/components/
@@ -117,5 +120,11 @@ but ultimately it is up to you -->
     }) }}
 
   {% endif %}
+
+  {{ govukButton({
+  text: "Start now",
+  href: "/tasks",
+  isStartButton: true
+}) }}
 
 {% endblock %}
