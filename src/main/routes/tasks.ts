@@ -17,7 +17,7 @@ interface Task {
  */
 function getStatusTagClass(status: string): string {
     switch (status.toLowerCase()) {
-        case 'todo':
+        case 'to do':
             return 'govuk-tag govuk-tag--grey';
         case 'in progress':
             return 'govuk-tag govuk-tag--blue';
@@ -97,7 +97,7 @@ export default function (app: Application): void {
                 caseNumber: taskCaseNumber,
                 title: taskName,
                 description: taskDescription,
-                status: taskStatus ?? 'todo', // Default to 'todo' if not provided
+                status: taskStatus ?? 'to do', // Default to 'to do' if not provided
                 dueDate: dueDate ?? null
             });
     
@@ -158,7 +158,7 @@ export default function (app: Application): void {
             caseNumber: taskCaseNumber,
             title: taskTitle,
             description: taskDescription,
-            status: taskStatus ?? 'todo',
+            status: taskStatus ?? 'to do',
             dueDate: dueDate ?? null
         });
 
@@ -167,7 +167,7 @@ export default function (app: Application): void {
             caseNumber: taskCaseNumber,
             title: taskTitle,
             description: taskDescription,
-            status: taskStatus ?? 'todo',
+            status: taskStatus ?? 'to do',
             dueDate: dueDate ?? null
         });
 
