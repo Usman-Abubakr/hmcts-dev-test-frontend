@@ -1,0 +1,109 @@
+{% extends "template.njk" %}
+
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block content %}
+  <h1 class="govuk-heading-xl">Update task</h1>
+
+  <form method="POST" action="/tasks/{{ task.id }}">
+
+    <h2 class="govuk-heading-l">{{ task.title }}</h2>
+    <h2 class="govuk-body-l">Case number: {{ task.caseNumber or "Not provided" }}</h2>
+
+    <!-- Hidden fields for title and caseNumber -->
+    <input type="hidden" name="taskTitle" value="{{ task.title }}">
+    <input type="hidden" name="taskCaseNumber" value="{{ task.caseNumber }}">
+
+
+    {{ govukTextarea({
+      label: {
+        text: "Task description",
+        classes: "govuk-label--m"
+      },
+      id: "task-description",
+      name: "taskDescription",
+      classes: "govuk-input--width-30",
+      value: task.description
+    }) }}
+
+    {{ govukDateInput({
+      id: "task-due-date",
+      namePrefix: "taskDueDate",
+      fieldset: {
+        legend: {
+          text: "Due date",
+          classes: "govuk-fieldset__legend--m"
+        }
+      },
+      hint: {
+        text: "Optional: Enter a due date if there is one. For example, 27 3 2024"
+      },
+      items: [
+        {
+          name: "day",
+          value: task.dueDateDay,
+          classes: "govuk-input--width-2"
+        },
+        {
+          name: "month",
+          value: task.dueDateMonth,
+          classes: "govuk-input--width-2"
+        },
+        {
+          name: "year",
+          value: task.dueDateYear,
+          classes: "govuk-input--width-4"
+        }
+      ]
+    }) }}
+
+    {{ govukRadios({
+      name: "taskStatus",
+      fieldset: {
+        legend: {
+          text: "Task status",
+          classes: "govuk-fieldset__legend--m"
+        }
+      },
+      items: [
+        {
+          value: "todo",
+          text: "To Do",
+          checked: task.status == "todo"
+        },
+        {
+          value: "in progress",
+          text: "In Progress",
+          checked: task.status == "in progress"
+        },
+        {
+          value: "complete",
+          text: "Complete",
+          checked: task.status == "complete"
+        }
+      ]
+    }) }}
+
+    <div class="govuk-button-group">
+        {{ govukButton({
+            text: "Update task",
+            classes: "govuk-button--primary",
+            preventDoubleClick: true,
+            attributes: {
+                type: "submit"
+            }
+        }) }}
+
+        {{ govukButton({
+            text: "Delete task",
+            classes: "govuk-button--warning"
+        }) }}
+
+        <a class="govuk-link" href="/tasks">Cancel</a>
+    </div>
+
+  </form>
+{% endblock %}
