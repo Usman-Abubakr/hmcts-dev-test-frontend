@@ -1,130 +1,37 @@
-{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-
 
 {% extends "template.njk" %}
 
-<!-- You may want to make further use of these components: https://design-system.service.gov.uk/components/
-but ultimately it is up to you -->
-
 {% block content %}
-  <h1 class="govuk-heading-xl">Welcome to your dev test!</h1>
+  <h1 class="govuk-heading-xl">Welcome to my HMCTS dev test project!</h1>
 
-  <!-- The freedom is yours. You can design the solution however you like, however there is a starting point provided
-  to ensure you have both services running. You may want to make use of the Gov UK Components:
-  https://design-system.service.gov.uk/components/ to add tabs and so forth :) -->
+  {{ govukWarningText({
+    text: "Ensure spring boot application is running to prevent being limited to navigation.",
+    iconFallbackText: "Warning"
+  }) }}
 
-  {% if example.id %}
+  <p class="govuk-heading-m">About this project</p>
 
-    {{ govukSummaryList({
-      rows: [
-        {
-          key: {
-            text: "ID"
-          },
-          value: {
-            text: example.id
-          },
-          actions: {
-            items: [
-              {
-                href: "#",
-                text: "Change",
-                visuallyHiddenText: "change case id ?!"
-              }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Case Number"
-          },
-          value: {
-            text: example.caseNumber
-          },
-          actions: {
-            items: [
-              {
-                href: "#",
-                text: "Change",
-                visuallyHiddenText: "change case number"
-              }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Title"
-          },
-          value: {
-            html: example.title
-          },
-          actions: {
-            items: [
-              {
-                href: "#",
-                text: "Change",
-                visuallyHiddenText: "change case title"
-              }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Description"
-          },
-          value: {
-            html: example.description
-          },
-          actions: {
-            items: [
-               {
-                 href: "#",
-                 text: "Delete",
-                 visuallyHiddenText: "Delete description"
-               },
-               {
-                 href: "#",
-                 text: "Change",
-                 visuallyHiddenText: "Change description"
-               }
-            ]
-          }
-        },
-        {
-          key: {
-            text: "Status"
-          },
-          value: {
-            html: example.status
-          },
-          actions: {
-            items: [
-            ]
-          }
-        },
-        {
-          key: {
-           text: "Created Date"
-          },
-          value: {
-           html: example.createdDate
-          },
-          actions: {
-           items: [
-           ]
-          }
-        }
-      ]
-    }) }}
+  <p class="govuk-body">This project is a simple task management web application for case managers. 
+    
+   <p class="govuk-body">It can display, create, update, and delete tasks.</p>
 
-  {% endif %}
+  <p class="govuk-body">It is designed to demonstrate the use of modern web development technologies and best practices.</p>
+
+  <p class="govuk-heading-m">How it's made</p>
+
+  <p class="govuk-body">This project makes use of Node.js, Express.js, and TypeScript for the website backend and Nunjucks for the front-end templating. </p>
+
+  <p class="govuk-body">
+    The application uses a RESTful API built using Java Spring Framework to manage tasks, with error handling and responses to ensure a smooth user experience.</p>
+
+  <p class="govuk-heading-s">Swagger UI can be accessed with: /api-docs</p>
 
   {{ govukButton({
-  text: "Start now",
-  href: "/tasks",
-  isStartButton: true
-}) }}
+    text: "Start",
+    href: "/tasks",
+    isStartButton: true
+  }) }}
 
 {% endblock %}
