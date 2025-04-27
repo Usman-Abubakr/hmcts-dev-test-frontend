@@ -21,7 +21,7 @@ const options = {
     info: {
       title: "hmcts-dev-test api",
       version: "0.1",
-      description: "API documentation for hmcts-dev-test, ensure Java Spring application is runnning before accessing this endpoint",
+      description: "API documentation for hmcts-dev-test, ensure Java Spring application is runnning before accessing this endpoint. !Try it out feature currently not working",
     },
     servers: [
       {
