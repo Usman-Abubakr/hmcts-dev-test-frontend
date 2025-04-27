@@ -11,6 +11,56 @@ interface Task {
 }
 
 /**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Task:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           example: 01
+ *         caseNumber:
+ *           type: string
+ *           example: 123ABC
+ *         title:
+ *           type: string
+ *           example: This is a task title
+ *         description:
+ *           type: string
+ *           example: This is a task description
+ *         status:
+ *           type: string
+ *           example: to do
+ *           enum: [to do, in progress, complete]
+ *         dueDate:
+ *           type: string
+ *           example: 2025-04-20
+ *           format: date
+ *     CreateTask:
+ *       type: object
+ *       properties:
+ *         caseNumber:
+ *           type: string
+ *           example: 123ABC
+ *         title:
+ *           type: string
+ *           example: This is a task title
+ *         description:
+ *           type: string
+ *           example: This is a task description
+ *         status:
+ *           type: string
+ *           example: to do
+ *           enum: [to do, in progress, complete]
+ *         dueDate:
+ *           type: string
+ *           example: 2025-04-20
+ *           format: date
+ */
+
+
+/**
  * Returns the appropriate CSS class for the status tag based on the status value.
  * @param {string} status - The status of the task.
  * @returns {string} - The CSS class for the status tag.
@@ -50,7 +100,22 @@ export default function (app: Application): void {
         res.render('new-task');
     });
 
-    // Get all tasks
+    /**
+     * @swagger
+     * /tasks:
+     *   get:
+     *     summary: Get all tasks
+     *     tags: [Tasks]
+     *     responses:
+     *       200:
+     *         description: List of tasks
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: array
+     *               items:
+     *                 $ref: '#/components/schemas/Task'
+     */
     app.get('/tasks', async (req, res) => {
         try {
             const response = await axios.get<Task[]>('http://localhost:4000/tasks');
@@ -69,7 +134,22 @@ export default function (app: Application): void {
         }
     });
 
-    // Create a new task
+    /**
+     * @swagger
+     * /tasks:
+     *   post:
+     *     summary: Create a new task
+     *     tags: [Tasks]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             $ref: '#/components/schemas/CreateTask'
+     *     responses:
+     *       201:
+     *         description: Task created
+     */
     app.post('/tasks', async (req, res) => {
         const { taskName, taskCaseNumber, taskDescription, taskStatus } = req.body;
 
@@ -109,7 +189,26 @@ export default function (app: Application): void {
         }
     });
 
-    // Get a specific task
+    /**
+     * @swagger
+     * /tasks{id}:
+     *   get:
+     *     summary: Get a task by ID
+     *     tags: [Tasks]
+     *     parameters:
+     *       - in: path
+     *         name: id
+     *         required: true
+     *         schema:
+     *           type: integer
+     *     responses:
+     *       200:
+     *         description: Task found
+     *         content:
+     *           application/json:
+     *             schema:
+     *               $ref: '#/components/schemas/Task'
+     */
     app.get('/tasks/:id', async (req, res) => {
     const taskId = req.params.id;
     
@@ -129,7 +228,22 @@ export default function (app: Application): void {
     });
     });
 
-  // Update a specific task
+  /**
+     * @swagger
+     * /tasks:
+     *   put:
+     *     summary: Update a task
+     *     tags: [Tasks]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             $ref: '#/components/schemas/Task'
+     *     responses:
+     *       200:
+     *         description: Task updated
+     */
   app.post('/tasks/:id', async (req, res) => {
     const id = req.params.id;
     const { taskTitle, taskCaseNumber, taskDescription, taskStatus } = req.body;
@@ -178,7 +292,22 @@ export default function (app: Application): void {
     }
 });
 
-    // Delete a specific task
+    /**
+     * @swagger
+     * /tasks/{id}:
+     *   delete:
+     *     summary: Delete a task by ID
+     *     tags: [Tasks]
+     *     parameters:
+     *       - in: path
+     *         name: id
+     *         required: true
+     *         schema:
+     *           type: integer
+     *     responses:
+     *       204:
+     *         description: Task deleted
+     */
     app.post('/tasks/:id/delete', async (req, res) => {
         const id = req.params.id;
 

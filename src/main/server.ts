@@ -13,6 +13,35 @@ app.locals.shutdown = false;
 // TODO: set the right port for your application
 const port: number = parseInt(process.env.PORT || '3100', 10);
 
+const swaggerjsdoc = require ("swagger-jsdoc")
+const swaggerui = require("swagger-ui-express")
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "hmcts-dev-test api",
+      version: "0.1",
+      description: "API documentation for hmcts-dev-test, ensure Java Spring application is runnning before accessing this endpoint",
+    },
+    servers: [
+      {
+        // url: "https://localhost:3100",
+        url: "http://localhost:4000",
+      },
+    ],
+  },
+  apis: ["./src/main/routes/*.ts"],
+};
+
+const spacs = swaggerjsdoc(options)
+
+app.use(
+  "/api-docs",
+  swaggerui.serve,
+  swaggerui.setup(spacs)
+  
+)
+
 if (app.locals.ENV === 'development') {
   const sslDirectory = path.join(__dirname, 'resources', 'localhost-ssl');
   const sslOptions = {
