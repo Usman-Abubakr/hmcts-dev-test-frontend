@@ -1,5 +1,15 @@
 {% extends "template.njk" %}
 
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
 {% block content %}
   <h1 class="govuk-heading-xl">Something went wrong</h1>
+
+  <h1 class="govuk-heading-m">{{ message }}</h2>
+
+  {{ govukButton({
+    text: "Return to tasks",
+    href: "/tasks",
+    classes: "govuk-button--primary"
+  }) }}
 {% endblock %}

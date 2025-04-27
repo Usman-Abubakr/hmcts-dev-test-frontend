@@ -1,0 +1,123 @@
+{% extends "template.njk" %}
+
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% block content %}
+
+
+    {{ govukBackLink({
+        text: "Back",
+        href: "/tasks"
+    }) }}
+
+
+  <h1 class="govuk-heading-xl">Update task</h1>
+
+  <form method="POST" action="/tasks/{{ task.id }}">
+
+    <h2 class="govuk-heading-l">{{ task.title }}</h2>
+    <h2 class="govuk-body-l">Case number: {{ task.caseNumber or "Not provided" }}</h2>
+
+    <!-- Hidden fields for title and caseNumber -->
+    <input type="hidden" name="taskTitle" value="{{ task.title }}">
+    <input type="hidden" name="taskCaseNumber" value="{{ task.caseNumber }}">
+
+
+    {{ govukTextarea({
+      label: {
+        text: "Task description",
+        classes: "govuk-label--m"
+      },
+      id: "task-description",
+      name: "taskDescription",
+      classes: "govuk-input--width-30",
+      value: task.description
+    }) }}
+
+    {{ govukDateInput({
+      id: "task-due-date",
+      namePrefix: "taskDueDate",
+      fieldset: {
+        legend: {
+          text: "Due date",
+          classes: "govuk-fieldset__legend--m"
+        }
+      },
+      hint: {
+        text: "Optional: Enter a due date if there is one. For example, 27 3 2024"
+      },
+      items: [
+        {
+          name: "day",
+          value: task.dueDateDay,
+          classes: "govuk-input--width-2"
+        },
+        {
+          name: "month",
+          value: task.dueDateMonth,
+          classes: "govuk-input--width-2"
+        },
+        {
+          name: "year",
+          value: task.dueDateYear,
+          classes: "govuk-input--width-4"
+        }
+      ]
+    }) }}
+
+    {{ govukRadios({
+      name: "taskStatus",
+      fieldset: {
+        legend: {
+          text: "Task status",
+          classes: "govuk-fieldset__legend--m"
+        }
+      },
+      items: [
+        {
+          value: "to do",
+          text: "To do",
+          checked: task.status == "to do"
+        },
+        {
+          value: "in progress",
+          text: "In progress",
+          checked: task.status == "in progress"
+        },
+        {
+          value: "complete",
+          text: "Complete",
+          checked: task.status == "complete"
+        }
+      ]
+    }) }}
+
+    
+        {{ govukButton({
+            text: "Update task",
+            classes: "govuk-button--primary",
+            preventDoubleClick: true,
+            attributes: {
+                type: "submit"
+            }
+        }) }}
+    
+    </form>
+
+    <form method="POST" action="/tasks/{{ task.id }}/delete" style="display: inline;">
+        {{ govukButton({
+            text: "Delete task",
+            classes: "govuk-button--warning",
+            preventDoubleClick: true
+        }) }}
+    
+
+        {# <a class="govuk-link" href="/tasks">Cancel</a> #}
+    </form>
+
+  
+{% endblock %}

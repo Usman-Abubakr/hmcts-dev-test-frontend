@@ -1,0 +1,41 @@
+{% extends "template.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% block content %}
+  <h1 class="govuk-heading-xl">Task</h1>
+
+  <p class="govuk-body">Use this page to:</p>
+  <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+    <li>
+      Add new tasks
+    </li>
+    <li>
+      View all tasks
+    </li>
+  </ul>
+
+  {{ govukButton({
+    text: "Add new task",
+    href: "/tasks/new",
+    classes: "govuk-button--primary"
+  }) }}
+
+  {{ govukTable({
+    caption: "All tasks",
+    captionClasses: "govuk-table__caption--m",
+    head: [
+      { text: "Title" },
+      { text: "Due date"},
+      { text: "Status" }
+    ],
+    rows: taskRows
+  }) }}
+
+  {{ govukBackLink({
+    text: "Back",
+    href: "/"
+  }) }}
+{% endblock %}
