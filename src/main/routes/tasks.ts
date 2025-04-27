@@ -185,7 +185,8 @@ export default function (app: Application): void {
             res.redirect('/tasks');
         } catch (error) {
             console.error('Error creating task:', error);
-            res.status(500).send('Something went wrong creating the task.');
+            res.status(500);
+            res.render('error', { message: 'Something went wrong creating the task.' });
         }
     });
 
@@ -288,7 +289,9 @@ export default function (app: Application): void {
         res.redirect('/tasks');
     } catch (error) {
         console.error('Error updating task:', error);
-        res.status(500).send('Something went wrong updating the task.');
+        res.status(500)
+        res.render('error', { message: 'Something went wrong updating the task.' });
+        
     }
 });
 
@@ -313,10 +316,12 @@ export default function (app: Application): void {
 
         try {
             await axios.delete(`http://localhost:4000/tasks/${id}`);
+            res.status(200);
             res.redirect('/tasks');
         } catch (error) {
             console.error('Error deleting task:', error);
-            res.status(500).send('Something went wrong deleting the task.');
+            res.status(500);
+            res.render('error', { message: 'Something went wrong deleting the task.' });
         }
     });
 
