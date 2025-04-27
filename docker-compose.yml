@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  taskmanager:
+    build: .
+    ports:
+      - "3100:3100"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: yarn start:dev
