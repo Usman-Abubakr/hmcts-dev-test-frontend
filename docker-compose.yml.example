@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:17
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: hmcts-backend
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - hmcts-network
+
+  backend:
+    build:
+      context: ./hmcts-dev-test-backend
+    container_name: hmcts-dev-test-backend-app
+    ports:
+      - "4000:4000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/hmcts-backend
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - db
+    networks:
+      - hmcts-network
+
+  frontend:
+    build:
+      context: ./hmcts-dev-test-frontend
+    container_name: hmcts-dev-test-frontend-app
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./hmcts-dev-test-frontend:/app
+      - /app/node_modules
+    command: yarn start:dev
+    environment:
+      SPRING_API_BASE_URL: http://backend:4000
+    depends_on:
+      - backend
+    networks:
+      - hmcts-network
+
+volumes:
+  postgres_data:
+
+networks:
+  hmcts-network:
+    driver: bridge
