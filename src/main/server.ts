@@ -26,7 +26,7 @@ const options = {
     servers: [
       {
         // url: "https://localhost:3100",
-        url: "http://localhost:4000",
+        url: process.env.SPRING_API_BASE_URL || "http://localhost:4000",
       },
     ],
   },

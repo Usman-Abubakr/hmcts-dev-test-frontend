@@ -1,6 +1,8 @@
 import { Application } from 'express';
 import axios from 'axios';
 
+const SPRING_API_BASE_URL = process.env.SPRING_API_BASE_URL || 'http://localhost:4000';
+
 interface Task {
     id: number;
     caseNumber: string;
@@ -118,7 +120,7 @@ export default function (app: Application): void {
      */
     app.get('/tasks', async (req, res) => {
         try {
-            const response = await axios.get<Task[]>('http://localhost:4000/tasks');
+            const response = await axios.get<Task[]>(`${SPRING_API_BASE_URL}/tasks`);
             const tasks = response.data;
 
             const taskRows = tasks.map(task => ([
@@ -173,7 +175,7 @@ export default function (app: Application): void {
         }
     
         try {
-            await axios.post('http://localhost:4000/tasks', {
+            await axios.post(`http://hmcts-dev-test-backend-app:4000/tasks`, {
                 caseNumber: taskCaseNumber,
                 title: taskName,
                 description: taskDescription,
@@ -213,7 +215,7 @@ export default function (app: Application): void {
     app.get('/tasks/:id', async (req, res) => {
     const taskId = req.params.id;
     
-    const response = await axios.get(`http://localhost:4000/tasks/${taskId}`);
+    const response = await axios.get(`${SPRING_API_BASE_URL}/tasks/${taskId}`);
     const task = response.data;
   
     // Format due date parts
@@ -277,7 +279,7 @@ export default function (app: Application): void {
             dueDate: dueDate ?? null
         });
 
-        await axios.put('http://localhost:4000/tasks', {
+        await axios.put(`${SPRING_API_BASE_URL}/tasks`, {
             id,
             caseNumber: taskCaseNumber,
             title: taskTitle,
@@ -315,7 +317,7 @@ export default function (app: Application): void {
         const id = req.params.id;
 
         try {
-            await axios.delete(`http://localhost:4000/tasks/${id}`);
+            await axios.delete(`${SPRING_API_BASE_URL}/tasks/${id}`);
             res.status(200);
             res.redirect('/tasks');
         } catch (error) {

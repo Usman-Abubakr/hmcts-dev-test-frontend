@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  taskmanager:
+  hmcts-dev-test-backend-app:
     build: .
     ports:
       - "3100:3100"
@@ -9,3 +9,11 @@ services:
       - .:/app
       - /app/node_modules
     command: yarn start:dev
+    environment:
+      SPRING_API_BASE_URL: http://hmcts-dev-test-backend-app:4000
+    networks:
+      - backend
+networks:
+  backend:
+    external: true
+    name: hmcts-network
